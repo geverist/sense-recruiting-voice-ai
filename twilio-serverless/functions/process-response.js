@@ -28,8 +28,25 @@ exports.handler = async function(context, event, callback) {
   const client = twilio(accountSid, authToken);
 
   // Determine voice to use
-  let twimlVoice = 'Polly.Brian'; // British Simon voice
-  if (voiceProvider === 'amazon-polly') {
+  let twimlVoice = 'Polly.Brian'; // Default British Simon voice
+
+  if (voiceProvider === 'elevenlabs') {
+    // Map ElevenLabs IDs to similar Amazon Polly voices
+    const elevenLabsToPolly = {
+      '21m00Tcm4TlvDq8ikWAM': 'Polly.Joanna',      // Rachel
+      'AZnzlk1XvdvUeBnXmlld': 'Polly.Ivy',         // Domi
+      'EXAVITQu4vr4xnSDxMaL': 'Polly.Kendra',      // Bella
+      'ErXwobaYiN019PkySvjV': 'Polly.Brian',       // Antoni
+      'MF3mGyEYCl7XYWbV9V6O': 'Polly.Emma',        // Elli
+      'TxGEqnHWrfWFTfGW9XjX': 'Polly.Matthew',     // Josh
+      'VR6AewLTigWG4xSOukaG': 'Polly.Russell',     // Arnold
+      'pNInz6obpgDQGcFmaJgB': 'Polly.Joey',        // Adam
+      'yoZ06aMxZJJ28mfd3POQ': 'Polly.Kimberly',    // Sam
+      'onwK4e9ZLuTAKqWW03F9': 'Polly.Justin',      // Daniel
+      'XB0fDUnXU5powFXDhCwa': 'Polly.Amy'          // Charlotte
+    };
+    twimlVoice = elevenLabsToPolly[voiceName] || 'Polly.Brian';
+  } else if (voiceProvider === 'amazon-polly') {
     twimlVoice = `Polly.${voiceName}`;
   } else if (voiceProvider === 'google-tts') {
     twimlVoice = voiceName;

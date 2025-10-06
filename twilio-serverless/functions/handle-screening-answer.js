@@ -69,28 +69,27 @@ exports.handler = async function(context, event, callback) {
   let twimlVoice = 'Polly.Joanna'; // Default fallback
 
   if (voiceProvider === 'elevenlabs') {
-    // ElevenLabs voices - use the voice ID directly
-    // Twilio ConversationRelay will handle these
-    console.log(`🎙️ Using ElevenLabs voice: ${voiceName}`);
+    // ElevenLabs voices - map to similar Polly voices for workshop
+    // Full ConversationRelay integration would use actual ElevenLabs API
+    console.log(`🎙️ Using ElevenLabs voice (mapped to Polly): ${voiceName}`);
 
-    // Map ElevenLabs IDs to friendly names for fallback
-    const elevenLabsVoices = {
-      '21m00Tcm4TlvDq8ikWAM': 'Rachel',
-      'AZnzlk1XvdvUeBnXmlld': 'Domi',
-      'EXAVITQu4vr4xnSDxMaL': 'Bella',
-      'ErXwobaYiN019PkySvjV': 'Antoni',
-      'MF3mGyEYCl7XYWbV9V6O': 'Elli',
-      'TxGEqnHWrfWFTfGW9XjX': 'Josh',
-      'VR6AewLTigWG4xSOukaG': 'Arnold',
-      'pNInz6obpgDQGcFmaJgB': 'Adam',
-      'yoZ06aMxZJJ28mfd3POQ': 'Sam',
-      'onwK4e9ZLuTAKqWW03F9': 'Daniel',
-      'XB0fDUnXU5powFXDhCwa': 'Charlotte'
+    // Map ElevenLabs IDs to similar Amazon Polly voices
+    const elevenLabsToPolly = {
+      '21m00Tcm4TlvDq8ikWAM': 'Polly.Joanna',      // Rachel -> Joanna (Female, US)
+      'AZnzlk1XvdvUeBnXmlld': 'Polly.Ivy',         // Domi -> Ivy (Female, US, Child)
+      'EXAVITQu4vr4xnSDxMaL': 'Polly.Kendra',      // Bella -> Kendra (Female, US)
+      'ErXwobaYiN019PkySvjV': 'Polly.Brian',       // Antoni -> Brian (Male, GB)
+      'MF3mGyEYCl7XYWbV9V6O': 'Polly.Emma',        // Elli -> Emma (Female, GB)
+      'TxGEqnHWrfWFTfGW9XjX': 'Polly.Matthew',     // Josh -> Matthew (Male, US)
+      'VR6AewLTigWG4xSOukaG': 'Polly.Russell',     // Arnold -> Russell (Male, AU)
+      'pNInz6obpgDQGcFmaJgB': 'Polly.Joey',        // Adam -> Joey (Male, US)
+      'yoZ06aMxZJJ28mfd3POQ': 'Polly.Kimberly',    // Sam -> Kimberly (Female, US)
+      'onwK4e9ZLuTAKqWW03F9': 'Polly.Justin',      // Daniel -> Justin (Male, US, Child)
+      'XB0fDUnXU5powFXDhCwa': 'Polly.Amy'          // Charlotte -> Amy (Female, GB)
     };
 
-    // For now, use Amazon Polly as fallback (ConversationRelay integration would use ElevenLabs)
-    // In full implementation, this would connect to ConversationRelay WebSocket
-    twimlVoice = 'Polly.Brian'; // British voice for Simon
+    twimlVoice = elevenLabsToPolly[voiceName] || 'Polly.Brian';
+    console.log(`   Mapped to: ${twimlVoice}`);
 
   } else if (voiceProvider === 'amazon-polly') {
     // Amazon Polly voices
