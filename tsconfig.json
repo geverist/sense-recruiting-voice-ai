@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleDetection": "force",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022",
+    "types": ["node", "jest"]
+  },
+  "exclude": ["node_modules", "dist"],
+  "include": [
+    "app.ts",
+    "core/**/*",
+    "recruiting-agents/**/*",
+    "integrations/**/*",
+    "modules/**/*",
+    "shared/**/*",
+    "lib/**/*",
+    "scripts/**/*.ts"
+  ]
+}

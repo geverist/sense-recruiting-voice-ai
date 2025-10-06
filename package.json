@@ -1,0 +1,71 @@
+{
+  "name": "sense-recruiting-voice-ai",
+  "version": "1.0.0",
+  "description": "AI-powered voice automation for recruiting - candidate screening, interview scheduling, and reference checks",
+  "type": "module",
+  "author": "Sense HQ",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --exec tsx app.ts --delay 1500ms",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "grok": "tsx scripts/ngrok.ts",
+    "setup": "tsx scripts/setup/index.ts",
+    "setup:apikey": "tsx scripts/setup/api-key.ts",
+    "setup:sync": "tsx scripts/setup/sync.ts",
+    "setup:phone": "tsx scripts/setup/phone.ts",
+    "setup:compliance": "tsx scripts/setup/compliance.ts",
+    "migrate": "tsx scripts/migration/migrate.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,json,md}\""
+  },
+  "dependencies": {
+    "@twilio/conversations": "^2.6.1",
+    "deep-diff": "^1.0.2",
+    "dotenv-flow": "^4.1.0",
+    "express": "^4.21.2",
+    "express-ws": "^5.0.2",
+    "lodash.debounce": "^4.0.8",
+    "lodash.result": "^4.5.2",
+    "openai": "^4.83.0",
+    "p-queue": "^8.1.0",
+    "twilio": "^5.4.3",
+    "twilio-sync": "^3.3.5",
+    "uuid": "^11.0.5",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8",
+    "date-fns": "^3.0.0",
+    "date-fns-tz": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/deep-diff": "^1.0.5",
+    "@types/express": "^5.0.0",
+    "@types/express-ws": "^3.0.5",
+    "@types/jest": "^29.5.12",
+    "@types/lodash.debounce": "^4.0.9",
+    "@types/lodash.result": "^4.5.9",
+    "@types/node": "^22.13.1",
+    "@types/p-queue": "^3.2.1",
+    "@types/twilio": "^3.19.3",
+    "@types/ws": "^8.5.14",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2",
+    "tsx": "^3.12.10",
+    "typescript": "^5.7.3"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
