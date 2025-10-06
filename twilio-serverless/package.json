@@ -1,0 +1,20 @@
+{
+  "name": "sense-recruiting-voice-ai-serverless",
+  "version": "1.0.0",
+  "description": "Twilio Serverless Functions for Sense Recruiting Voice AI",
+  "private": true,
+  "scripts": {
+    "deploy": "twilio serverless:deploy",
+    "start": "twilio serverless:start",
+    "list": "twilio serverless:list"
+  },
+  "dependencies": {
+    "twilio": "^5.4.3"
+  },
+  "devDependencies": {
+    "@twilio-labs/serverless-runtime-types": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

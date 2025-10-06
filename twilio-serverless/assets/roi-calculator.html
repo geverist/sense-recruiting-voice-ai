@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Calculator - Sense Recruiting AI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .calculator-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+    }
+
+    .input-section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #667eea;
+    }
+
+    .input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .input-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-label {
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-weight: bold;
+    }
+
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      padding-left: 35px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .helper-text {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .results-section {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 35px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+
+    .results-title {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .result-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .result-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .result-subtext {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 8px;
+    }
+
+    .breakeven-section {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 25px;
+    }
+
+    .breakeven-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .breakeven-details {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .breakeven-item {
+      text-align: center;
+    }
+
+    .breakeven-value {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .breakeven-label {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .assumptions-section {
+      background: #f9fafb;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 30px;
+    }
+
+    .assumptions-title {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .assumption-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .assumption-item:last-child {
+      border-bottom: none;
+    }
+
+    .assumption-value {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .calculate-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s;
+      margin-top: 20px;
+    }
+
+    .calculate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>💰 ROI Calculator</h1>
+      <p>Calculate the business impact of AI-powered recruiting</p>
+    </div>
+
+    <div class="calculator-card">
+      <div class="input-section">
+        <h2 class="section-title">Current Recruiting Metrics</h2>
+        <div class="input-group">
+          <div class="input-field">
+            <label class="input-label">Recruiter Hourly Rate</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="hourlyRate" value="45" min="0">
+            </div>
+            <span class="helper-text">Fully-loaded cost including benefits</span>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">Screening Calls Per Week</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">#</span>
+              <input type="number" id="callsPerWeek" value="50" min="0">
+            </div>
+            <span class="helper-text">Current manual screening volume</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-field">
+            <label class="input-label">Minutes Per Manual Call</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">⏱</span>
+              <input type="number" id="minutesPerCall" value="15" min="0">
+            </div>
+            <span class="helper-text">Average time including prep/notes</span>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">No-Show / Voicemail Rate</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">%</span>
+              <input type="number" id="noShowRate" value="30" min="0" max="100">
+            </div>
+            <span class="helper-text">Candidates who don't answer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-section">
+        <h2 class="section-title">AI Implementation Costs</h2>
+        <div class="input-group">
+          <div class="input-field">
+            <label class="input-label">Monthly Twilio Cost</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="twilioCost" value="150" min="0">
+            </div>
+            <span class="helper-text">Voice API + ConversationRelay</span>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">Monthly OpenAI Cost</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="openaiCost" value="100" min="0">
+            </div>
+            <span class="helper-text">GPT-4o-mini at volume</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-field">
+            <label class="input-label">Monthly ElevenLabs Cost (Optional)</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="elevenlabsCost" value="99" min="0">
+            </div>
+            <span class="helper-text">Pro tier for premium voices</span>
+          </div>
+
+          <div class="input-field">
+            <label class="input-label">Other Monthly Costs</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="otherCost" value="50" min="0">
+            </div>
+            <span class="helper-text">Infrastructure, monitoring, etc.</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="calculate-btn" onclick="calculateROI()">Calculate ROI 🚀</button>
+
+      <div class="results-section" id="results" style="display: none;">
+        <h2 class="results-title">📊 Your Savings Potential</h2>
+
+        <div class="results-grid">
+          <div class="result-card highlight">
+            <div class="result-label">Monthly Savings</div>
+            <div class="result-value" id="monthlySavings">$0</div>
+            <div class="result-subtext">Time value saved</div>
+          </div>
+
+          <div class="result-card highlight">
+            <div class="result-label">Annual Savings</div>
+            <div class="result-value" id="annualSavings">$0</div>
+            <div class="result-subtext">Yearly impact</div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-label">Hours Saved/Month</div>
+            <div class="result-value" id="hoursSaved">0</div>
+            <div class="result-subtext">Recruiter capacity freed</div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-label">ROI Percentage</div>
+            <div class="result-value" id="roiPercent">0%</div>
+            <div class="result-subtext">Return on investment</div>
+          </div>
+        </div>
+
+        <div class="breakeven-section">
+          <h3 class="breakeven-title">⚡ Breakeven Analysis</h3>
+          <div class="breakeven-details">
+            <div class="breakeven-item">
+              <span class="breakeven-value" id="breakevenDays">0</span>
+              <span class="breakeven-label">Days to Breakeven</span>
+            </div>
+            <div class="breakeven-item">
+              <span class="breakeven-value" id="breakevenCalls">0</span>
+              <span class="breakeven-label">Calls to Breakeven</span>
+            </div>
+            <div class="breakeven-item">
+              <span class="breakeven-value" id="paybackMultiple">0x</span>
+              <span class="breakeven-label">Annual Payback Multiple</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="assumptions-section">
+        <h3 class="assumptions-title">💡 Assumptions & Notes</h3>
+        <div class="assumption-item">
+          <span>AI call average duration</span>
+          <span class="assumption-value">4 minutes</span>
+        </div>
+        <div class="assumption-item">
+          <span>AI can handle no-shows/voicemail</span>
+          <span class="assumption-value">Leaves message automatically</span>
+        </div>
+        <div class="assumption-item">
+          <span>Recruiter time saved per call</span>
+          <span class="assumption-value">100% for initial screening</span>
+        </div>
+        <div class="assumption-item">
+          <span>Implementation/training time</span>
+          <span class="assumption-value">Not included (one-time cost)</span>
+        </div>
+        <div class="assumption-item">
+          <span>Quality improvement value</span>
+          <span class="assumption-value">Not included (harder to quantify)</span>
+        </div>
+        <div class="assumption-item">
+          <span>Candidate experience improvement</span>
+          <span class="assumption-value">24/7 availability, instant response</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateROI() {
+      // Get input values
+      const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+      const callsPerWeek = parseInt(document.getElementById('callsPerWeek').value) || 0;
+      const minutesPerCall = parseFloat(document.getElementById('minutesPerCall').value) || 0;
+      const noShowRate = parseFloat(document.getElementById('noShowRate').value) || 0;
+
+      const twilioCost = parseFloat(document.getElementById('twilioCost').value) || 0;
+      const openaiCost = parseFloat(document.getElementById('openaiCost').value) || 0;
+      const elevenlabsCost = parseFloat(document.getElementById('elevenlabsCost').value) || 0;
+      const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
+
+      // Calculate current costs
+      const hoursPerCall = minutesPerCall / 60;
+      const effectiveCallsPerWeek = callsPerWeek * (1 - noShowRate / 100); // Only successful calls
+      const totalCallsPerWeek = callsPerWeek; // AI handles all including no-shows
+
+      const hoursPerWeek = totalCallsPerWeek * hoursPerCall;
+      const hoursPerMonth = hoursPerWeek * 4.33; // Average weeks per month
+
+      const currentMonthlyCost = hoursPerMonth * hourlyRate;
+      const currentAnnualCost = currentMonthlyCost * 12;
+
+      // Calculate AI costs
+      const totalMonthlyCost = twilioCost + openaiCost + elevenlabsCost + otherCost;
+      const totalAnnualCost = totalMonthlyCost * 12;
+
+      // Calculate savings
+      const monthlySavings = currentMonthlyCost - totalMonthlyCost;
+      const annualSavings = monthlySavings * 12;
+      const roiPercent = ((monthlySavings / totalMonthlyCost) * 100).toFixed(0);
+
+      // Breakeven analysis
+      const breakevenDays = totalMonthlyCost / (monthlySavings / 30);
+      const callsPerDay = callsPerWeek / 5; // Assuming 5 work days
+      const breakevenCalls = Math.ceil(breakevenDays * callsPerDay);
+      const paybackMultiple = (annualSavings / totalAnnualCost).toFixed(1);
+
+      // Update UI
+      document.getElementById('monthlySavings').textContent =
+        '$' + monthlySavings.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+      document.getElementById('annualSavings').textContent =
+        '$' + annualSavings.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+      document.getElementById('hoursSaved').textContent =
+        hoursPerMonth.toFixed(0);
+
+      document.getElementById('roiPercent').textContent = roiPercent + '%';
+
+      document.getElementById('breakevenDays').textContent =
+        breakevenDays.toFixed(0);
+
+      document.getElementById('breakevenCalls').textContent = breakevenCalls;
+
+      document.getElementById('paybackMultiple').textContent = paybackMultiple + 'x';
+
+      // Show results
+      document.getElementById('results').style.display = 'block';
+
+      // Scroll to results
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Calculate on page load with default values
+    window.addEventListener('load', () => {
+      calculateROI();
+    });
+
+    // Recalculate on any input change
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', calculateROI);
+    });
+  </script>
+</body>
+</html>

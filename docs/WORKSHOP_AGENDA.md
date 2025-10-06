@@ -1,9 +1,9 @@
 # Sense Voice AI Workshop - 3 Hour Prototype Sprint
 
 ## 🎯 Workshop Goal
-Build a working prototype of an **outbound AI voice call to a candidate** who showed interest on a job board, demonstrating Sense's automated recruiting capabilities.
+Build a working prototype of an **outbound AI voice call to a candidate** who showed interest on a job board, demonstrating Sense's automated recruiting capabilities with **interview scheduling and SMS confirmations**.
 
-**Target Use Case**: Candidate clicks LinkedIn job ad → Gets SMS to call automated recruiter → AI voice screening call → Results synced to ATS
+**Target Use Case**: Candidate clicks LinkedIn job ad → AI voice screening call → **AI schedules interview with recruiter** → **SMS confirmation sent** → Results synced to ATS
 
 ---
 
@@ -70,11 +70,21 @@ ENABLE_REFERENCE_CHECKS=false
 - Setting up ngrok static domain
 
 #### **0:45 - 1:00** - Run Setup Script & Test
-```bash
-# Run automated Twilio setup
-npm run setup:basic
 
-# Start the application
+**Option A: Quick Deploy with Twilio Serverless (Recommended for Workshop)**
+```bash
+# Deploy UI and call routing to Twilio
+cd twilio-serverless
+npm install
+twilio serverless:deploy
+
+# You'll get a URL like: https://your-service-XXXX.twil.io
+# Open: https://your-service-XXXX.twil.io/index.html
+```
+
+**Option B: Full Stack Development Setup**
+```bash
+# Start the main application (AI logic)
 npm run dev
 
 # In another terminal, start ngrok
@@ -84,13 +94,13 @@ npm run grok
 curl -X POST http://localhost:3333/test-call
 ```
 
-**Success criteria**: Everyone can make/receive a test call
+**Success criteria**: Everyone can access the admin UI and initiate a test call
 
 ---
 
-### **Hour 2: Build the Screening Agent (1:00 - 2:00)**
+### **Hour 2: Build the Screening + Scheduling Agent (1:00 - 2:00)**
 
-#### **1:00 - 1:20** - Understand the Screening Agent Architecture
+#### **1:00 - 1:20** - Understand the Agent Architecture
 **Instructor explains** (with live code walkthrough):
 - `recruiting-agents/screening-agent/index.ts` - Agent configuration
 - `recruiting-agents/screening-agent/instructions/en-US.md` - The prompt
@@ -138,11 +148,21 @@ sell them on the benefits of working at Twilio, and capture:
 
 6. **Salary & Preferences**: "What salary range are you targeting? And are you looking for fully remote, or open to hybrid?"
 
-7. **Close**: "You sound like a great fit! I'll pass your details to our hiring team. They'll reach out within 2 business days. Thanks so much for your time, {candidate.firstName}!"
+7. **Schedule Interview**: "You sound like a great fit! Let me get you on the calendar with our team. Checking availability now..."
+   - Use `checkAvailability()` tool to query Google Calendar
+   - "I see we have Tuesday at 2pm or Thursday at 10am PT. Which works better for you?"
+   - Use `scheduleInterview()` tool to book the slot
+   - "Perfect! I'm booking you for Thursday at 10am."
+
+8. **Close with SMS**: "You'll receive a calendar invite at your email, and I'm sending you an SMS confirmation right now. Looking forward to chatting more! Thanks, {candidate.firstName}!"
+   - Use `sendSMS()` tool to send confirmation text
 
 ## Tools Available
 - `recordAnswer(questionId, answer)` - Save candidate responses
 - `updateCandidateScore(score, notes)` - Rate the candidate (1-10)
+- `checkAvailability()` - Query Google Calendar for open interview slots
+- `scheduleInterview(datetime, candidate)` - Book calendar event with recruiter
+- `sendSMS(phone, message)` - Send SMS confirmation to candidate
 - `concludeScreening(recommendation)` - Finish and submit results
 
 ## Rules
@@ -158,12 +178,20 @@ sell them on the benefits of working at Twilio, and capture:
 - Adjust the personality (e.g., make it more casual or formal)
 
 #### **1:50 - 2:00** - Test Your Customizations
+
+**If using Twilio Serverless:**
+1. Open your admin UI: `https://your-service-XXXX.twil.io/index.html`
+2. Fill in the screening form with your phone number
+3. Click "Start Screening Call"
+4. Watch the call appear in "Recent Calls" section
+
+**If using local development:**
 ```bash
 # Restart the server to load new instructions
 # Press Ctrl+C then run:
 npm run dev
 
-# Make a test screening call
+# Make a test screening call via UI or curl
 curl -X POST http://localhost:3333/screen-candidate \
   -H "Content-Type: application/json" \
   -d '{
@@ -330,9 +358,17 @@ By end of workshop, each attendee will have:
 - **Multi-language Support**: Spanish, French screening
 - **Reference Checks**: Automated reference calling
 - **Analytics Dashboard**: Screening metrics and insights
+- **Custom Admin UI**: Enhance the Serverless dashboard with advanced features
+
+### Deployment Options
+- **Twilio Serverless**: Already deployed! Just scale up
+- **Heroku/Railway**: Easy deployment with git push
+- **AWS/Google Cloud**: Full infrastructure control
+- **Hybrid**: Serverless UI + Cloud-hosted AI logic (recommended)
 
 ### Support Channels
 - Twilio Docs: https://www.twilio.com/docs/voice/conversationrelay
+- Twilio Serverless Docs: https://www.twilio.com/docs/serverless
 - Sense Developer Slack: [invite link]
 - Office Hours: Fridays 2-3pm PT
 

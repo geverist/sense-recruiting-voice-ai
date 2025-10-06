@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Recruiting Compliance & Ethics - Sense</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .warning-banner {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #667eea;
+    }
+
+    .subsection-title {
+      font-size: 1.5rem;
+      color: #667eea;
+      margin: 30px 0 15px 0;
+    }
+
+    .regulation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .regulation-card {
+      background: #f9fafb;
+      border-left: 5px solid #667eea;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .regulation-card.danger {
+      border-left-color: #ef4444;
+    }
+
+    .regulation-card.warning {
+      border-left-color: #f59e0b;
+    }
+
+    .regulation-card.success {
+      border-left-color: #10b981;
+    }
+
+    .regulation-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .regulation-description {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .regulation-action {
+      background: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .forbidden-questions {
+      background: #fee2e2;
+      border: 3px solid #ef4444;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .forbidden-title {
+      color: #991b1b;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .forbidden-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .forbidden-list li {
+      padding: 10px 15px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      color: #666;
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .forbidden-list li::before {
+      content: '⛔';
+      position: absolute;
+      left: 12px;
+      font-size: 1.2rem;
+    }
+
+    .allowed-questions {
+      background: #d1fae5;
+      border: 3px solid #10b981;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .allowed-title {
+      color: #065f46;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .allowed-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .allowed-list li {
+      padding: 10px 15px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      color: #666;
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .allowed-list li::before {
+      content: '✅';
+      position: absolute;
+      left: 12px;
+      font-size: 1.2rem;
+    }
+
+    .best-practices {
+      display: grid;
+      gap: 15px;
+    }
+
+    .practice-item {
+      display: flex;
+      gap: 15px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 8px;
+      align-items: start;
+    }
+
+    .practice-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .practice-content {
+      flex: 1;
+    }
+
+    .practice-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .practice-description {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      background: #dbeafe;
+      border-radius: 12px;
+      padding: 25px;
+    }
+
+    .checklist-title {
+      font-size: 1.3rem;
+      color: #1e40af;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .checklist-item:hover {
+      background: #f0f9ff;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .checklist-item label {
+      flex: 1;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .escalation-flow {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 25px;
+    }
+
+    .flow-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .flow-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .flow-step {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+      backdrop-filter: blur(10px);
+    }
+
+    .flow-step-number {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .flow-arrow {
+      font-size: 2rem;
+    }
+
+    .resources {
+      background: #f3f4f6;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    .resource-link {
+      display: block;
+      padding: 15px 20px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      border-left: 4px solid #667eea;
+    }
+
+    .resource-link:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>⚖️ AI Recruiting Compliance & Ethics</h1>
+      <p>Legal guidelines and best practices for ethical AI interviewing</p>
+    </div>
+
+    <div class="warning-banner">
+      ⚠️ IMPORTANT: This guide is for educational purposes. Always consult with your legal team before implementing AI recruiting tools.
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">Legal & Regulatory Framework</h2>
+
+      <div class="regulation-grid">
+        <div class="regulation-card danger">
+          <div class="regulation-name">EEOC Title VII</div>
+          <div class="regulation-description">
+            Prohibits employment discrimination based on race, color, religion, sex, or national origin. AI systems must not introduce bias.
+          </div>
+          <div class="regulation-action">
+            ✓ Avoid questions about protected characteristics
+          </div>
+        </div>
+
+        <div class="regulation-card danger">
+          <div class="regulation-name">ADA (Americans with Disabilities Act)</div>
+          <div class="regulation-description">
+            Cannot ask about disabilities before making a job offer. AI must accommodate candidates who need assistance.
+          </div>
+          <div class="regulation-action">
+            ✓ Provide alternative screening methods
+          </div>
+        </div>
+
+        <div class="regulation-card danger">
+          <div class="regulation-name">ADEA (Age Discrimination)</div>
+          <div class="regulation-description">
+            Protects workers 40 and older from age-based discrimination. Never ask about age or use age as a factor.
+          </div>
+          <div class="regulation-action">
+            ✓ Focus on skills and experience, not years
+          </div>
+        </div>
+
+        <div class="regulation-card warning">
+          <div class="regulation-name">GDPR (EU) / CCPA (California)</div>
+          <div class="regulation-description">
+            Data privacy laws requiring consent, transparency, and right to deletion. Candidates must know they're talking to AI.
+          </div>
+          <div class="regulation-action">
+            ✓ Disclose AI use, get consent, protect data
+          </div>
+        </div>
+
+        <div class="regulation-card warning">
+          <div class="regulation-name">NYC Local Law 144</div>
+          <div class="regulation-description">
+            Requires bias audits for AI hiring tools used in NYC. Annual audits must check for discrimination.
+          </div>
+          <div class="regulation-action">
+            ✓ Conduct annual bias audits if hiring in NYC
+          </div>
+        </div>
+
+        <div class="regulation-card success">
+          <div class="regulation-name">TCPA (Telephone Consumer Protection)</div>
+          <div class="regulation-description">
+            Regulates outbound calling. Must have prior express consent before calling candidates' cell phones.
+          </div>
+          <div class="regulation-action">
+            ✓ Get opt-in consent before outbound calls
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">State-Specific Regulations</h3>
+      <div class="practice-item">
+        <div class="practice-icon">📍</div>
+        <div class="practice-content">
+          <div class="practice-title">California (AB 2551)</div>
+          <div class="practice-description">
+            Requires notification when interacting with a bot. AI must identify itself at the beginning of the call.
+          </div>
+        </div>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-icon">📍</div>
+        <div class="practice-content">
+          <div class="practice-title">Illinois (BIPA - Biometric Information)</div>
+          <div class="practice-description">
+            Strictly regulates voice biometrics. Get written consent before collecting voiceprints. Our system does NOT store voiceprints.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">Forbidden vs. Allowed Questions</h2>
+
+      <div class="forbidden-questions">
+        <div class="forbidden-title">⛔ NEVER Ask These Questions</div>
+        <ul class="forbidden-list">
+          <li><strong>Age:</strong> "How old are you?" or "What year did you graduate?"</li>
+          <li><strong>Marital/Family Status:</strong> "Are you married?" or "Do you have children?"</li>
+          <li><strong>Race/Ethnicity:</strong> "What's your background?" or "Where are you from originally?"</li>
+          <li><strong>Religion:</strong> "What church do you attend?" or "Can you work Saturdays?"</li>
+          <li><strong>Disabilities:</strong> "Do you have any health conditions?" or "Have you been injured?"</li>
+          <li><strong>Genetic Information:</strong> "Does your family have a history of...?"</li>
+          <li><strong>Citizenship (pre-offer):</strong> "Are you a U.S. citizen?" (can ask if authorized to work)</li>
+          <li><strong>Arrest Record:</strong> "Have you ever been arrested?" (convictions may be OK if job-related)</li>
+          <li><strong>Credit History:</strong> Highly restricted in many states unless directly job-related</li>
+          <li><strong>Social Organizations:</strong> "What clubs do you belong to?" (could reveal protected class)</li>
+        </ul>
+      </div>
+
+      <div class="allowed-questions">
+        <div class="allowed-title">✅ Safe & Effective Questions</div>
+        <ul class="allowed-list">
+          <li><strong>Work Authorization:</strong> "Are you authorized to work in the United States?"</li>
+          <li><strong>Experience:</strong> "Tell me about your experience with [specific skill]."</li>
+          <li><strong>Skills:</strong> "What programming languages are you proficient in?"</li>
+          <li><strong>Availability:</strong> "Are you available to start on [date]?"</li>
+          <li><strong>Schedule:</strong> "This role requires [schedule]. Can you work these hours?"</li>
+          <li><strong>Salary Expectations:</strong> "What are your salary expectations?" (banned in some states - check local laws)</li>
+          <li><strong>Relocation:</strong> "Are you willing to relocate to [city]?"</li>
+          <li><strong>Travel:</strong> "This role requires 25% travel. Is that acceptable?"</li>
+          <li><strong>Notice Period:</strong> "How much notice do you need to give your current employer?"</li>
+          <li><strong>Career Goals:</strong> "Where do you see yourself in 3-5 years?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">Best Practices for Ethical AI Recruiting</h2>
+
+      <div class="best-practices">
+        <div class="practice-item">
+          <div class="practice-icon">🤖</div>
+          <div class="practice-content">
+            <div class="practice-title">Always Disclose AI Use</div>
+            <div class="practice-description">
+              Your AI agent should introduce itself clearly: "Hi, I'm an AI recruiting assistant calling on behalf of [Company]. This call may be recorded. Is now a good time to chat for a few minutes?"
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">🔒</div>
+          <div class="practice-content">
+            <div class="practice-title">Implement PII Redaction</div>
+            <div class="practice-description">
+              Use Twilio's Language Operators to automatically redact SSN, credit cards, email addresses, and phone numbers from transcripts. This is already configured in your outbound-call-answer.js file.
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">⚖️</div>
+          <div class="practice-content">
+            <div class="practice-title">Consistent Evaluation Criteria</div>
+            <div class="practice-description">
+              AI should ask the SAME questions to ALL candidates for the same role. This ensures fair, unbiased evaluation and protects against discrimination claims.
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">👤</div>
+          <div class="practice-content">
+            <div class="practice-title">Human Oversight Required</div>
+            <div class="practice-description">
+              AI should screen candidates, but humans make final hiring decisions. Never let AI automatically reject candidates without human review.
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">🎯</div>
+          <div class="practice-content">
+            <div class="practice-title">Job-Related Questions Only</div>
+            <div class="practice-description">
+              Every question must be directly related to job requirements. Avoid "cultural fit" questions that could introduce bias.
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">📊</div>
+          <div class="practice-content">
+            <div class="practice-title">Regular Bias Audits</div>
+            <div class="practice-description">
+              Analyze screening outcomes by demographic group (if data is available). Look for disparate impact. If one group advances at significantly lower rates, investigate and fix.
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">♿</div>
+          <div class="practice-content">
+            <div class="practice-title">Provide Reasonable Accommodations</div>
+            <div class="practice-description">
+              Offer alternative screening methods for candidates who can't use voice calls (deaf/hard of hearing, speech disabilities). Consider text-based chat or human recruiter alternatives.
+            </div>
+          </div>
+        </div>
+
+        <div class="practice-item">
+          <div class="practice-icon">📝</div>
+          <div class="practice-content">
+            <div class="practice-title">Document Everything</div>
+            <div class="practice-description">
+              Keep recordings, transcripts, and AI decisions. If challenged, you need to prove your AI acted fairly and legally. Retention: 1 year minimum (EEOC), 3+ years recommended.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">When to Escalate to a Human Recruiter</h2>
+
+      <div class="escalation-flow">
+        <h3 class="flow-title">🚨 Escalation Triggers</h3>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <span class="flow-step-number">1</span>
+            Candidate mentions disability or accommodation needs
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <span class="flow-step-number">2</span>
+            Candidate asks about protected topics (religion, family, etc.)
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <span class="flow-step-number">3</span>
+            Candidate becomes upset or confrontational
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <span class="flow-step-number">4</span>
+            Technical issues prevent fair screening
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 25px; color: #666; line-height: 1.6;">
+        <strong>Escalation Response:</strong> "I appreciate you sharing that. Let me connect you with a member of our recruiting team who can discuss this further. You'll receive a call from [Name] within 24 hours. Is there anything else I can help with today?"
+      </p>
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">Pre-Launch Compliance Checklist</h2>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Complete Before Going Live</div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check1">
+          <label for="check1">Legal review of AI agent script and prompts completed</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check2">
+          <label for="check2">AI clearly identifies itself at the start of every call</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check3">
+          <label for="check3">PII redaction enabled in Language Operators</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check4">
+          <label for="check4">Call recording enabled with proper consent notice</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check5">
+          <label for="check5">Forbidden questions removed from prompts and knowledge base</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check6">
+          <label for="check6">All questions are job-related and consistent across candidates</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check7">
+          <label for="check7">Human escalation path defined and tested</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check8">
+          <label for="check8">Alternative accommodation process documented</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check9">
+          <label for="check9">Candidate consent obtained for outbound calls (TCPA compliance)</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check10">
+          <label for="check10">Data retention policy established (1-3 years recommended)</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check11">
+          <label for="check11">Bias audit plan created (required for NYC, recommended for all)</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check12">
+          <label for="check12">Privacy policy updated to mention AI screening</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check13">
+          <label for="check13">Training provided to recruiting team on AI limitations and oversight</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check14">
+          <label for="check14">Test calls completed with diverse set of scenarios</label>
+        </div>
+
+        <div class="checklist-item">
+          <input type="checkbox" id="check15">
+          <label for="check15">Contact information provided for candidates who want to opt out of AI screening</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">Additional Resources</h2>
+
+      <div class="resources">
+        <a href="https://www.eeoc.gov/ai" class="resource-link" target="_blank">
+          📚 EEOC Guidance on AI and Algorithmic Fairness
+        </a>
+        <a href="https://www.shrm.org/topics-tools/tools/toolkits/artificial-intelligence-hiring" class="resource-link" target="_blank">
+          📚 SHRM: Artificial Intelligence in Hiring
+        </a>
+        <a href="https://www.ada.gov/" class="resource-link" target="_blank">
+          📚 ADA Information and Compliance
+        </a>
+        <a href="https://www.dol.gov/agencies/ofccp/ai" class="resource-link" target="_blank">
+          📚 DOL: AI & Hiring Discrimination
+        </a>
+        <a href="https://www.ftc.gov/business-guidance/blog/2023/02/keep-your-ai-claims-check" class="resource-link" target="_blank">
+          📚 FTC: Avoiding Deceptive AI Claims
+        </a>
+        <a href="https://legistar.council.nyc.gov/LegislationDetail.aspx?ID=4344524&GUID=B051915D-A9AC-451E-81F8-6596032FA3F9" class="resource-link" target="_blank">
+          📚 NYC Local Law 144 (AI Bias Audits)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Save checklist state to localStorage
+    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+      // Load saved state
+      const saved = localStorage.getItem(checkbox.id);
+      if (saved === 'true') {
+        checkbox.checked = true;
+      }
+
+      // Save on change
+      checkbox.addEventListener('change', () => {
+        localStorage.setItem(checkbox.id, checkbox.checked);
+      });
+    });
+  </script>
+</body>
+</html>

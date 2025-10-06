@@ -10,11 +10,14 @@
     "build": "tsc",
     "start": "node dist/app.js",
     "grok": "tsx scripts/ngrok.ts",
+    "test:local": "tsx test-local.ts",
     "setup": "tsx scripts/setup/index.ts",
     "setup:apikey": "tsx scripts/setup/api-key.ts",
     "setup:sync": "tsx scripts/setup/sync.ts",
     "setup:phone": "tsx scripts/setup/phone.ts",
     "setup:compliance": "tsx scripts/setup/compliance.ts",
+    "setup:intelligence": "tsx scripts/setup/intelligence.ts",
+    "setup:verify": "tsx test-local.ts",
     "migrate": "tsx scripts/migration/migrate.ts",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -37,7 +40,7 @@
     "uuid": "^11.0.5",
     "ws": "^8.18.0",
     "zod": "^3.23.8",
-    "date-fns": "^3.0.0",
+    "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0"
   },
   "devDependencies": {

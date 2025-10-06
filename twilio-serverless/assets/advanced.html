@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sense Voice AI - Advanced Configuration</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .nav-tab {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background 0.3s;
+      flex: 1;
+      text-align: center;
+    }
+
+    .nav-tab:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .nav-tab.active {
+      background: white;
+      color: #667eea;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 {
+      color: #555;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 10px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    label .required {
+      color: #e74c3c;
+    }
+
+    label .hint {
+      font-weight: normal;
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .checkbox-item:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .checkbox-item label {
+      margin: 0;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .tool-description {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .button-secondary {
+      background: #6c757d;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .preset-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .preset-button {
+      padding: 10px 18px;
+      background: white;
+      border: 2px solid #667eea;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #333;
+      transition: all 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .preset-button:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .info-box h4 {
+      color: #1976d2;
+      margin-bottom: 8px;
+    }
+
+    .info-box p {
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .kb-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kb-item-info {
+      flex: 1;
+    }
+
+    .kb-item-title {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .kb-item-url {
+      font-size: 0.85rem;
+      color: #666;
+      word-break: break-all;
+    }
+
+    .kb-item-remove {
+      background: #dc3545;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+
+    .add-kb-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .add-kb-form input {
+      flex: 1;
+    }
+
+    .add-kb-form button {
+      padding: 10px 20px;
+    }
+
+    #configPreview {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 15px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎙️ Sense Voice AI - Advanced Configuration</h1>
+      <p>Configure AI agent, voice settings, and tools</p>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('candidate')">📋 Candidate Info</button>
+      <button class="nav-tab" onclick="switchTab('agent')">🤖 Agent Configuration</button>
+      <button class="nav-tab" onclick="switchTab('voice')">🎤 Voice Settings</button>
+      <button class="nav-tab" onclick="switchTab('llm')">🧠 LLM Configuration</button>
+      <button class="nav-tab" onclick="switchTab('knowledge')">📚 Knowledge Base</button>
+      <button class="nav-tab" onclick="switchTab('tools')">🛠️ Tools & Functions</button>
+      <button class="nav-tab" onclick="switchTab('preview')">👁️ Preview</button>
+    </div>
+
+    <!-- Tab 1: Candidate Info -->
+    <div id="candidate-tab" class="tab-content active">
+      <div class="card">
+        <h2>📞 Candidate Information</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="candidateId">Candidate ID <span class="required">*</span></label>
+            <input type="text" id="candidateId" placeholder="550e8400-e29b-41d4-a716-446655440000" required>
+          </div>
+
+          <div class="form-group">
+            <label for="firstName">First Name <span class="required">*</span></label>
+            <input type="text" id="firstName" placeholder="Justin" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number <span class="required">*</span> <span class="hint">(E.164 format)</span></label>
+            <input type="tel" id="phone" placeholder="+15555551234" required>
+          </div>
+
+          <div class="form-group">
+            <label for="jobTitle">Job Title <span class="required">*</span></label>
+            <input type="text" id="jobTitle" placeholder="Senior Software Engineer" required>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button onclick="switchTab('agent')">Next: Agent Configuration →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Agent Configuration -->
+    <div id="agent-tab" class="tab-content">
+      <div class="card">
+        <h2>🤖 Agent Configuration</h2>
+
+        <div class="info-box">
+          <h4>💡 What is an Agent Prompt?</h4>
+          <p>The system prompt defines your AI agent's personality, goals, and behavior. It tells the AI how to conduct the conversation.</p>
+        </div>
+
+        <div class="preset-buttons">
+          <button class="preset-button" onclick="loadPromptPreset('screening')">📋 Screening Agent</button>
+          <button class="preset-button" onclick="loadPromptPreset('scheduling')">📅 Scheduling Agent</button>
+          <button class="preset-button" onclick="loadPromptPreset('reference')">✅ Reference Check Agent</button>
+          <button class="preset-button" onclick="loadPromptPreset('casual')">😊 Casual Tone</button>
+          <button class="preset-button" onclick="loadPromptPreset('formal')">🎩 Formal Tone</button>
+        </div>
+
+        <div class="form-group">
+          <label for="promptMode">Prompt Mode</label>
+          <select id="promptMode" onchange="togglePromptMode()">
+            <option value="stateless">Stateless (Single system prompt)</option>
+            <option value="stateful">Stateful (Multi-turn conversation history)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="agentPrompt">System Prompt <span class="required">*</span></label>
+          <textarea id="agentPrompt" placeholder="You are Simon, a British AI voice assistant..."></textarea>
+        </div>
+
+        <div id="statefulOptions" style="display: none;">
+          <h3>Stateful Conversation Settings</h3>
+
+          <div class="info-box">
+            <h4>💡 Stateful vs Stateless</h4>
+            <p><strong>Stateless:</strong> Each response is independent. Fast but AI doesn't remember context.<br>
+            <strong>Stateful:</strong> Full conversation history maintained. AI remembers everything but uses more tokens.</p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="conversationMemory">Conversation Memory</label>
+              <select id="conversationMemory">
+                <option value="full">Full History (Remember everything)</option>
+                <option value="sliding" selected>Sliding Window (Last N turns)</option>
+                <option value="summary">Summary Mode (Summarize old context)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="memoryWindow">Memory Window <span class="hint">(turns to remember)</span></label>
+              <input type="number" id="memoryWindow" value="10" min="3" max="50">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="persistContext" checked style="width: auto; margin-right: 8px;">
+              Persist context between calls (store in Twilio Sync)
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="useContextualPrompts" style="width: auto; margin-right: 8px;">
+              Use contextual prompt injection (adapt prompt based on conversation stage)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="agentName">Agent Name</label>
+            <input type="text" id="agentName" placeholder="Simon" value="Simon">
+          </div>
+
+          <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" placeholder="Twilio" value="Twilio">
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="button-secondary" onclick="switchTab('candidate')">← Back</button>
+          <button onclick="switchTab('voice')">Next: Voice Settings →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Voice Settings -->
+    <div id="voice-tab" class="tab-content">
+      <div class="card">
+        <h2>🎤 Voice & Speech Configuration</h2>
+
+        <h3>Voice Selection</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="voiceProvider">Voice Provider</label>
+            <select id="voiceProvider" onchange="updateVoiceOptions()">
+              <option value="amazon-polly">Amazon Polly</option>
+              <option value="google-tts">Google Text-to-Speech</option>
+              <option value="elevenlabs">ElevenLabs</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="voiceName">Voice Name</label>
+            <select id="voiceName">
+              <option value="Polly.Joanna">Joanna (Female, US)</option>
+              <option value="Polly.Matthew">Matthew (Male, US)</option>
+              <option value="Polly.Amy">Amy (Female, British)</option>
+              <option value="Polly.Brian">Brian (Male, British)</option>
+              <option value="Polly.Ivy">Ivy (Female, Child, US)</option>
+            </select>
+          </div>
+        </div>
+
+        <h3>Speech Parameters</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="language">Language <span class="hint">(BCP-47 code)</span></label>
+            <select id="language">
+              <option value="en-US">English (US)</option>
+              <option value="en-GB">English (UK)</option>
+              <option value="es-ES">Spanish (Spain)</option>
+              <option value="es-MX">Spanish (Mexico)</option>
+              <option value="fr-FR">French</option>
+              <option value="de-DE">German</option>
+              <option value="pt-BR">Portuguese (Brazil)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="speechRate">Speech Rate <span class="hint">(0.5 - 2.0)</span></label>
+            <input type="number" id="speechRate" value="1.0" min="0.5" max="2.0" step="0.1">
+          </div>
+        </div>
+
+        <h3>Audio Quality</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sampleRate">Sample Rate</label>
+            <select id="sampleRate">
+              <option value="8000">8kHz (Phone Quality)</option>
+              <option value="16000" selected>16kHz (Wideband)</option>
+              <option value="24000">24kHz (High Quality)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="codec">Audio Codec</label>
+            <select id="codec">
+              <option value="pcmu">PCMU (G.711 μ-law)</option>
+              <option value="opus" selected>Opus</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="button-secondary" onclick="switchTab('agent')">← Back</button>
+          <button onclick="switchTab('llm')">Next: LLM Config →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: LLM Configuration -->
+    <div id="llm-tab" class="tab-content">
+      <div class="card">
+        <h2>🧠 LLM Model Configuration</h2>
+
+        <div class="info-box">
+          <h4>💡 Model Selection Guide</h4>
+          <p><strong>GPT-4o:</strong> Best quality, slower, more expensive<br>
+          <strong>GPT-4o-mini:</strong> Great balance of speed and quality (recommended)<br>
+          <strong>GPT-3.5-turbo:</strong> Fastest, cheapest, good for simple tasks</p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="llmProvider">LLM Provider</label>
+            <select id="llmProvider" onchange="updateModelOptions()">
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic Claude</option>
+              <option value="azure">Azure OpenAI</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="llmModel">Model</label>
+            <select id="llmModel">
+              <option value="gpt-4o">GPT-4o (Latest)</option>
+              <option value="gpt-4o-mini" selected>GPT-4o-mini (Recommended)</option>
+              <option value="gpt-4-turbo">GPT-4 Turbo</option>
+              <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Fast)</option>
+            </select>
+          </div>
+        </div>
+
+        <h3>Model Parameters</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="temperature">Temperature <span class="hint">(0.0 - 2.0, creativity)</span></label>
+            <input type="number" id="temperature" value="0.7" min="0" max="2" step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label for="maxTokens">Max Tokens <span class="hint">(response length)</span></label>
+            <input type="number" id="maxTokens" value="150" min="50" max="500" step="50">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="topP">Top P <span class="hint">(0.0 - 1.0, nucleus sampling)</span></label>
+            <input type="number" id="topP" value="0.9" min="0" max="1" step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label for="frequencyPenalty">Frequency Penalty <span class="hint">(-2.0 - 2.0)</span></label>
+            <input type="number" id="frequencyPenalty" value="0.0" min="-2" max="2" step="0.1">
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="button-secondary" onclick="switchTab('voice')">← Back</button>
+          <button onclick="switchTab('knowledge')">Next: Knowledge Base →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 5: Knowledge Base -->
+    <div id="knowledge-tab" class="tab-content">
+      <div class="card">
+        <h2>📚 Knowledge Base</h2>
+
+        <div class="info-box">
+          <h4>💡 What is Knowledge Base?</h4>
+          <p>Add documents, FAQs, and company information that the AI can reference during conversations. This enables RAG (Retrieval Augmented Generation).</p>
+        </div>
+
+        <h3>Knowledge Sources</h3>
+        <div id="knowledgeList">
+          <!-- Knowledge items will be added here dynamically -->
+        </div>
+
+        <div class="add-kb-form">
+          <input type="text" id="kbTitle" placeholder="Source Title (e.g., 'Company FAQ')">
+          <input type="text" id="kbUrl" placeholder="URL or identifier">
+          <button onclick="addKnowledgeSource()">+ Add Source</button>
+        </div>
+
+        <h3>Knowledge Base Settings</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="kbRetrievalMode">Retrieval Mode</label>
+            <select id="kbRetrievalMode">
+              <option value="semantic">Semantic Search</option>
+              <option value="keyword">Keyword Search</option>
+              <option value="hybrid" selected>Hybrid</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="kbMaxResults">Max Results Per Query</label>
+            <input type="number" id="kbMaxResults" value="3" min="1" max="10">
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="button-secondary" onclick="switchTab('llm')">← Back</button>
+          <button onclick="switchTab('tools')">Next: Tools →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 6: Tools -->
+    <div id="tools-tab" class="tab-content">
+      <div class="card">
+        <h2>🛠️ Tools & Functions</h2>
+
+        <div class="info-box">
+          <h4>💡 What are Tools?</h4>
+          <p>Tools are functions the AI can call during the conversation, like recording answers, scheduling interviews, or checking availability.</p>
+        </div>
+
+        <h3>Select Tools to Enable</h3>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-recordAnswer" checked>
+            <label for="tool-recordAnswer">
+              <div><strong>recordAnswer</strong> - Save candidate responses</div>
+              <div class="tool-description">Records and structures candidate answers to screening questions</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-updateScore" checked>
+            <label for="tool-updateScore">
+              <div><strong>updateCandidateScore</strong> - Rate candidate engagement</div>
+              <div class="tool-description">Updates engagement score (0-10) based on conversation quality</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-concludeScreening" checked>
+            <label for="tool-concludeScreening">
+              <div><strong>concludeScreening</strong> - Finish screening call</div>
+              <div class="tool-description">Submits final screening results and recommendation</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-checkAvailability">
+            <label for="tool-checkAvailability">
+              <div><strong>checkAvailability</strong> - Check interview slots</div>
+              <div class="tool-description">Queries available interview times from calendar</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-scheduleInterview">
+            <label for="tool-scheduleInterview">
+              <div><strong>scheduleInterview</strong> - Book interview</div>
+              <div class="tool-description">Creates calendar event for interview</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-sendSMS">
+            <label for="tool-sendSMS">
+              <div><strong>sendSMS</strong> - Send follow-up text</div>
+              <div class="tool-description">Sends SMS confirmation or follow-up message</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-searchJobs">
+            <label for="tool-searchJobs">
+              <div><strong>searchJobs</strong> - Find relevant positions</div>
+              <div class="tool-description">Searches ATS for jobs matching candidate profile</div>
+            </label>
+          </div>
+
+          <div class="checkbox-item">
+            <input type="checkbox" id="tool-escalateToHuman">
+            <label for="tool-escalateToHuman">
+              <div><strong>escalateToHuman</strong> - Transfer to recruiter</div>
+              <div class="tool-description">Transfers call to live recruiter for complex questions</div>
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="button-secondary" onclick="switchTab('knowledge')">← Back</button>
+          <button onclick="switchTab('preview')">Preview Configuration →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 7: Preview -->
+    <div id="preview-tab" class="tab-content">
+      <div class="card">
+        <h2>👁️ Configuration Preview</h2>
+
+        <div class="info-box">
+          <h4>💡 Review Your Configuration</h4>
+          <p>Review all settings before initiating the call. This configuration will be sent to the ConversationRelay.</p>
+        </div>
+
+        <div id="configPreview"></div>
+
+        <div class="button-group">
+          <button class="button-secondary" onclick="switchTab('tools')">← Back</button>
+          <button onclick="initiateCall()" id="submitBtn">🚀 Initiate Screening Call</button>
+        </div>
+
+        <div id="status" class="status"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Toggle prompt mode
+    function togglePromptMode() {
+      const mode = document.getElementById('promptMode').value;
+      const statefulOptions = document.getElementById('statefulOptions');
+
+      if (mode === 'stateful') {
+        statefulOptions.style.display = 'block';
+      } else {
+        statefulOptions.style.display = 'none';
+      }
+    }
+
+    // Tab switching
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Show selected tab
+      document.getElementById(tabName + '-tab').classList.add('active');
+      event.target.classList.add('active');
+
+      // Update preview if switching to preview tab
+      if (tabName === 'preview') {
+        updatePreview();
+      }
+    }
+
+    // Prompt presets
+    const promptPresets = {
+      screening: `You are Simon, a British AI voice assistant and automated recruiter for {{companyName}}.
+
+Your Goal:
+Confirm the candidate's interest in the {{jobTitle}} position, assess their qualifications, and capture key information.
+
+Personality:
+- Warm, professional, and engaging
+- British accent and expressions (e.g., "brilliant", "lovely", "cheers")
+- Use the candidate's name frequently
+- Keep responses brief (2-3 sentences max for voice)
+
+Conversation Flow:
+1. Greeting: "Hi {{firstName}}, this is Simon from {{companyName}}. Thanks for your interest in our {{jobTitle}} role. Is now a good time to chat?"
+2. Confirm Interest: "Brilliant! Are you still interested in learning more?"
+3. Assess Qualifications: Ask about relevant skills and experience
+4. Capture Requirements: Years of experience, salary expectations, work preferences
+5. Close: "You sound like a great fit! I'll pass your details to our hiring team."
+
+Rules:
+- If candidate doesn't meet requirements, be empathetic
+- If candidate is unclear, ask for clarification politely
+- Never make promises about hiring decisions
+- Keep the call under 8 minutes`,
+
+      scheduling: `You are Simon, a scheduling assistant for {{companyName}}.
+
+Your Goal:
+Schedule an interview between the candidate and the hiring team at a mutually convenient time.
+
+Personality:
+- Efficient and helpful
+- British accent
+- Patient and accommodating
+
+Conversation Flow:
+1. Greeting: "Hi {{firstName}}! I'm calling to schedule your interview for the {{jobTitle}} position."
+2. Check Availability: "What days and times work best for you this week?"
+3. Propose Times: Use checkAvailability tool to find mutual slots
+4. Confirm: "Perfect! I've scheduled your interview for [date/time]."
+5. Details: Explain interview format and duration
+6. Close: "You'll receive a calendar invite shortly. Looking forward to chatting!"`,
+
+      reference: `You are Simon, conducting a reference check for {{companyName}}.
+
+Your Goal:
+Verify employment history and gather feedback about the candidate's performance and work ethic.
+
+Personality:
+- Professional and respectful
+- Direct but friendly
+- British accent
+
+Conversation Flow:
+1. Greeting: "Hello, I'm Simon from {{companyName}}. [Candidate Name] has applied for a position and listed you as a reference."
+2. Verify Relationship: "Can you confirm you worked with them at [Company]?"
+3. Employment Dates: "What were their dates of employment?"
+4. Performance Questions: Ask about strengths, areas for improvement, work quality
+5. Rehire: "Would you rehire this person?"
+6. Close: "Thank you for your time. This has been very helpful."
+
+Rules:
+- Be respectful of the reference's time
+- Stay professional and neutral
+- Never ask leading questions`,
+
+      casual: `You are {{agentName}}, a friendly recruiter at {{companyName}}.
+
+Vibe:
+- Super chill and conversational
+- Like talking to a friend
+- Use casual language ("awesome", "cool", "totally")
+- Enthusiastic and positive
+
+Keep it relaxed and fun! 😊`,
+
+      formal: `You are {{agentName}}, representing {{companyName}} in a professional capacity.
+
+Demeanor:
+- Highly professional and courteous
+- Formal language and structure
+- Respectful of candidate's time
+- Clear and articulate
+
+Maintain professionalism at all times.`
+    };
+
+    function loadPromptPreset(type) {
+      const agentName = document.getElementById('agentName').value || 'Simon';
+      const companyName = document.getElementById('companyName').value || 'Twilio';
+      const firstName = document.getElementById('firstName').value || '{{firstName}}';
+      const jobTitle = document.getElementById('jobTitle').value || '{{jobTitle}}';
+
+      let prompt = promptPresets[type]
+        .replace(/\{\{agentName\}\}/g, agentName)
+        .replace(/\{\{companyName\}\}/g, companyName)
+        .replace(/\{\{firstName\}\}/g, firstName)
+        .replace(/\{\{jobTitle\}\}/g, jobTitle);
+
+      document.getElementById('agentPrompt').value = prompt;
+    }
+
+    // Voice provider options
+    function updateVoiceOptions() {
+      const provider = document.getElementById('voiceProvider').value;
+      const voiceSelect = document.getElementById('voiceName');
+
+      voiceSelect.innerHTML = '';
+
+      if (provider === 'amazon-polly') {
+        voiceSelect.innerHTML = `
+          <option value="Polly.Joanna">Joanna (Female, US - Professional)</option>
+          <option value="Polly.Matthew">Matthew (Male, US - Authoritative)</option>
+          <option value="Polly.Amy">Amy (Female, British - Elegant)</option>
+          <option value="Polly.Brian">Brian (Male, British - Professional)</option>
+          <option value="Polly.Kendra">Kendra (Female, US - Warm)</option>
+          <option value="Polly.Kevin">Kevin (Male, US - Casual)</option>
+          <option value="Polly.Salli">Salli (Female, US - Clear)</option>
+          <option value="Polly.Joey">Joey (Male, US - Friendly)</option>
+        `;
+      } else if (provider === 'google-tts') {
+        voiceSelect.innerHTML = `
+          <option value="en-US-Neural2-F">Neural2-F (Female, US)</option>
+          <option value="en-US-Neural2-M">Neural2-M (Male, US)</option>
+          <option value="en-GB-Neural2-F">Neural2-F (Female, British)</option>
+          <option value="en-GB-Neural2-M">Neural2-M (Male, British)</option>
+          <option value="en-US-Studio-M">Studio-M (Male, US - Professional)</option>
+          <option value="en-US-Studio-O">Studio-O (Female, US - Professional)</option>
+        `;
+      } else if (provider === 'elevenlabs') {
+        voiceSelect.innerHTML = `
+          <option value="21m00Tcm4TlvDq8ikWAM">Rachel (Female, US - Calm, Professional)</option>
+          <option value="AZnzlk1XvdvUeBnXmlld">Domi (Female, US - Strong, Confident)</option>
+          <option value="EXAVITQu4vr4xnSDxMaL">Bella (Female, US - Soft, Pleasant)</option>
+          <option value="ErXwobaYiN019PkySvjV">Antoni (Male, US - Well-rounded, Warm)</option>
+          <option value="MF3mGyEYCl7XYWbV9V6O">Elli (Female, US - Emotional, Young)</option>
+          <option value="TxGEqnHWrfWFTfGW9XjX">Josh (Male, US - Deep, Authoritative)</option>
+          <option value="VR6AewLTigWG4xSOukaG">Arnold (Male, US - Crisp, Clear)</option>
+          <option value="pNInz6obpgDQGcFmaJgB">Adam (Male, US - Deep, Mature)</option>
+          <option value="yoZ06aMxZJJ28mfd3POQ">Sam (Male, US - Youthful, Dynamic)</option>
+          <option value="onwK4e9ZLuTAKqWW03F9">Daniel (Male, British - Deep, Authoritative)</option>
+          <option value="XB0fDUnXU5powFXDhCwa">Charlotte (Female, British - Professional)</option>
+        `;
+      }
+    }
+
+    // LLM model options
+    function updateModelOptions() {
+      const provider = document.getElementById('llmProvider').value;
+      const modelSelect = document.getElementById('llmModel');
+
+      modelSelect.innerHTML = '';
+
+      if (provider === 'openai') {
+        modelSelect.innerHTML = `
+          <option value="gpt-4o">GPT-4o (Latest)</option>
+          <option value="gpt-4o-mini" selected>GPT-4o-mini (Recommended)</option>
+          <option value="gpt-4-turbo">GPT-4 Turbo</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Fast)</option>
+        `;
+      } else if (provider === 'anthropic') {
+        modelSelect.innerHTML = `
+          <option value="claude-3-opus">Claude 3 Opus</option>
+          <option value="claude-3-sonnet" selected>Claude 3 Sonnet</option>
+          <option value="claude-3-haiku">Claude 3 Haiku</option>
+        `;
+      } else if (provider === 'azure') {
+        modelSelect.innerHTML = `
+          <option value="gpt-4">Azure GPT-4</option>
+          <option value="gpt-35-turbo" selected>Azure GPT-3.5 Turbo</option>
+        `;
+      }
+    }
+
+    // Knowledge base management
+    let knowledgeSources = [];
+
+    function addKnowledgeSource() {
+      const title = document.getElementById('kbTitle').value;
+      const url = document.getElementById('kbUrl').value;
+
+      if (!title || !url) {
+        alert('Please provide both title and URL');
+        return;
+      }
+
+      knowledgeSources.push({ title, url });
+      document.getElementById('kbTitle').value = '';
+      document.getElementById('kbUrl').value = '';
+
+      renderKnowledgeSources();
+    }
+
+    function removeKnowledgeSource(index) {
+      knowledgeSources.splice(index, 1);
+      renderKnowledgeSources();
+    }
+
+    function renderKnowledgeSources() {
+      const list = document.getElementById('knowledgeList');
+
+      if (knowledgeSources.length === 0) {
+        list.innerHTML = '<p style="color: #999;">No knowledge sources added yet.</p>';
+        return;
+      }
+
+      list.innerHTML = knowledgeSources.map((source, index) => `
+        <div class="kb-item">
+          <div class="kb-item-info">
+            <div class="kb-item-title">${source.title}</div>
+            <div class="kb-item-url">${source.url}</div>
+          </div>
+          <button class="kb-item-remove" onclick="removeKnowledgeSource(${index})">Remove</button>
+        </div>
+      `).join('');
+    }
+
+    // Get enabled tools
+    function getEnabledTools() {
+      const tools = [];
+      document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked').forEach(checkbox => {
+        const toolName = checkbox.id.replace('tool-', '');
+        tools.push(toolName);
+      });
+      return tools;
+    }
+
+    // Update preview
+    function updatePreview() {
+      const config = {
+        candidate: {
+          id: document.getElementById('candidateId').value,
+          firstName: document.getElementById('firstName').value,
+          phone: document.getElementById('phone').value,
+          jobTitle: document.getElementById('jobTitle').value
+        },
+        agent: {
+          name: document.getElementById('agentName').value,
+          company: document.getElementById('companyName').value,
+          prompt: document.getElementById('agentPrompt').value,
+          promptMode: document.getElementById('promptMode').value,
+          stateful: document.getElementById('promptMode').value === 'stateful' ? {
+            conversationMemory: document.getElementById('conversationMemory').value,
+            memoryWindow: parseInt(document.getElementById('memoryWindow').value),
+            persistContext: document.getElementById('persistContext').checked,
+            useContextualPrompts: document.getElementById('useContextualPrompts').checked
+          } : null
+        },
+        voice: {
+          provider: document.getElementById('voiceProvider').value,
+          name: document.getElementById('voiceName').value,
+          language: document.getElementById('language').value,
+          speechRate: parseFloat(document.getElementById('speechRate').value),
+          sampleRate: parseInt(document.getElementById('sampleRate').value),
+          codec: document.getElementById('codec').value
+        },
+        llm: {
+          provider: document.getElementById('llmProvider').value,
+          model: document.getElementById('llmModel').value,
+          temperature: parseFloat(document.getElementById('temperature').value),
+          maxTokens: parseInt(document.getElementById('maxTokens').value),
+          topP: parseFloat(document.getElementById('topP').value),
+          frequencyPenalty: parseFloat(document.getElementById('frequencyPenalty').value)
+        },
+        knowledgeBase: {
+          sources: knowledgeSources,
+          retrievalMode: document.getElementById('kbRetrievalMode').value,
+          maxResults: parseInt(document.getElementById('kbMaxResults').value)
+        },
+        tools: getEnabledTools()
+      };
+
+      document.getElementById('configPreview').textContent = JSON.stringify(config, null, 2);
+    }
+
+    // Initiate call
+    async function initiateCall() {
+      const candidateId = document.getElementById('candidateId').value;
+      const firstName = document.getElementById('firstName').value;
+      const phone = document.getElementById('phone').value;
+      const jobTitle = document.getElementById('jobTitle').value;
+
+      if (!candidateId || !firstName || !phone || !jobTitle) {
+        showStatus('⚠️ Please fill in all required candidate information', true);
+        switchTab('candidate');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '📞 Initiating call...';
+
+      // Build configuration from UI settings
+      const config = {
+        candidatePhone: phone,
+        candidateName: firstName,
+        jobTitle: jobTitle,
+        voiceProvider: document.getElementById('voiceProvider').value,
+        voiceName: document.getElementById('voiceName').value,
+        agentPersonality: document.getElementById('agentName').value,
+        promptMode: document.getElementById('promptMode').value
+      };
+
+      console.log('🚀 Initiating call with config:', config);
+
+      try {
+        // Use the new simplified endpoint
+        const response = await fetch('/simple-screening-call', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(config)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showStatus(`✅ ${result.message} (Call SID: ${result.callSid})`, false);
+        } else {
+          showStatus(`❌ Error: ${result.error}`, true);
+        }
+      } catch (error) {
+        showStatus(`❌ Network error: ${error.message}`, true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🚀 Initiate Screening Call';
+      }
+    }
+
+    function showStatus(message, isError) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.textContent = message;
+      statusDiv.className = 'status show ' + (isError ? 'error' : 'success');
+      setTimeout(() => {
+        statusDiv.classList.remove('show');
+      }, 5000);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderKnowledgeSources();
+      loadPromptPreset('screening');
+    });
+  </script>
+</body>
+</html>

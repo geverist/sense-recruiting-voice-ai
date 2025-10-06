@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Experience Survey</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .survey-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 35px;
+      line-height: 1.6;
+    }
+
+    .question {
+      margin-bottom: 35px;
+    }
+
+    .question-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      display: block;
+    }
+
+    .rating-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .rating-btn {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      background: white;
+      border-radius: 10px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .rating-btn:hover {
+      border-color: #667eea;
+      transform: translateY(-3px);
+    }
+
+    .rating-btn.selected {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+      transform: scale(1.1);
+    }
+
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 10px;
+    }
+
+    .yes-no-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    .yes-no-btn {
+      flex: 1;
+      padding: 20px;
+      border: 2px solid #e5e7eb;
+      background: white;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .yes-no-btn:hover {
+      border-color: #667eea;
+      transform: translateY(-3px);
+    }
+
+    .yes-no-btn.selected.yes {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border-color: #10b981;
+    }
+
+    .yes-no-btn.selected.no {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border-color: #ef4444;
+    }
+
+    .textarea-wrapper {
+      margin-top: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.3s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 30px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-message {
+      text-align: center;
+      padding: 40px;
+      display: none;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .success-icon {
+      font-size: 5rem;
+      margin-bottom: 20px;
+    }
+
+    .success-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .success-text {
+      color: #666;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="survey-container">
+    <div id="surveyForm">
+      <div class="logo">🎙️</div>
+      <h1 class="title">Quick Feedback</h1>
+      <p class="subtitle">
+        Hi <span id="candidateName">there</span>! Thanks for speaking with us.
+        Your feedback helps us improve the experience for future candidates.
+      </p>
+
+      <div class="question">
+        <label class="question-label">How natural did the AI voice sound?</label>
+        <div class="rating-group">
+          <button class="rating-btn" data-rating="1" onclick="selectRating(1)">1</button>
+          <button class="rating-btn" data-rating="2" onclick="selectRating(2)">2</button>
+          <button class="rating-btn" data-rating="3" onclick="selectRating(3)">3</button>
+          <button class="rating-btn" data-rating="4" onclick="selectRating(4)">4</button>
+          <button class="rating-btn" data-rating="5" onclick="selectRating(5)">5</button>
+        </div>
+        <div class="rating-labels">
+          <span>Very Robotic</span>
+          <span>Very Natural</span>
+        </div>
+      </div>
+
+      <div class="question">
+        <label class="question-label">Would you recommend this company based on this call?</label>
+        <div class="yes-no-group">
+          <button class="yes-no-btn yes" onclick="selectRecommend(true)">
+            👍 Yes
+          </button>
+          <button class="yes-no-btn no" onclick="selectRecommend(false)">
+            👎 No
+          </button>
+        </div>
+      </div>
+
+      <div class="question">
+        <label class="question-label">Any additional feedback? (Optional)</label>
+        <div class="textarea-wrapper">
+          <textarea
+            id="additionalFeedback"
+            placeholder="What did you like? What could be improved?"
+          ></textarea>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitSurvey()">
+        Submit Feedback
+      </button>
+    </div>
+
+    <div class="success-message" id="successMessage">
+      <div class="success-icon">🎉</div>
+      <h2 class="success-title">Thank You!</h2>
+      <p class="success-text">
+        We really appreciate your feedback. It helps us create a better experience for everyone.
+        <br><br>
+        Our team will be in touch soon regarding the next steps!
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let selectedRating = null;
+    let selectedRecommend = null;
+
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const callSid = urlParams.get('callSid');
+    const candidateName = urlParams.get('name') || 'there';
+
+    // Set candidate name
+    document.getElementById('candidateName').textContent = candidateName;
+
+    function selectRating(rating) {
+      selectedRating = rating;
+
+      // Update UI
+      document.querySelectorAll('.rating-btn').forEach(btn => {
+        if (parseInt(btn.dataset.rating) === rating) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+
+      checkFormComplete();
+    }
+
+    function selectRecommend(value) {
+      selectedRecommend = value;
+
+      // Update UI
+      document.querySelectorAll('.yes-no-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+
+      if (value) {
+        document.querySelector('.yes-no-btn.yes').classList.add('selected');
+      } else {
+        document.querySelector('.yes-no-btn.no').classList.add('selected');
+      }
+
+      checkFormComplete();
+    }
+
+    function checkFormComplete() {
+      const submitBtn = document.getElementById('submitBtn');
+      if (selectedRating !== null && selectedRecommend !== null) {
+        submitBtn.disabled = false;
+      }
+    }
+
+    async function submitSurvey() {
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      const additionalFeedback = document.getElementById('additionalFeedback').value;
+
+      const surveyData = {
+        callSid: callSid,
+        naturalness: selectedRating,
+        wouldRecommend: selectedRecommend,
+        feedback: additionalFeedback,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        // Submit to Twilio Function
+        const response = await fetch('/submit-survey', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(surveyData)
+        });
+
+        if (response.ok) {
+          // Show success message
+          document.getElementById('surveyForm').style.display = 'none';
+          document.getElementById('successMessage').classList.add('show');
+        } else {
+          throw new Error('Failed to submit survey');
+        }
+      } catch (error) {
+        console.error('Error submitting survey:', error);
+        alert('There was an error submitting your feedback. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Feedback';
+      }
+    }
+
+    // Initially disable submit button
+    document.getElementById('submitBtn').disabled = true;
+  </script>
+</body>
+</html>

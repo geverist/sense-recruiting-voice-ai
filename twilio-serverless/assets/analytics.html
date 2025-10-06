@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Analytics Dashboard - Sense Recruiting AI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .metric-label {
+      color: #666;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #667eea;
+      line-height: 1;
+    }
+
+    .metric-subtext {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    .chart-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-title {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .sentiment-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .sentiment-label {
+      width: 100px;
+      font-weight: 500;
+      color: #666;
+    }
+
+    .sentiment-progress {
+      flex: 1;
+      height: 30px;
+      background: #f0f0f0;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .sentiment-fill {
+      height: 100%;
+      transition: width 1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .positive { background: linear-gradient(90deg, #4ade80, #22c55e); }
+    .neutral { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+    .negative { background: linear-gradient(90deg, #f87171, #ef4444); }
+
+    .entities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .entity-tag {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .entity-count {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .entity-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .recent-calls {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .call-item {
+      border-left: 4px solid #667eea;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      background: #f9fafb;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .call-item:hover {
+      background: #f3f4f6;
+    }
+
+    .call-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .call-candidate {
+      font-weight: bold;
+      color: #333;
+      font-size: 1.1rem;
+    }
+
+    .call-time {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .call-details {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .call-sentiment {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .sentiment-positive { background: #d1fae5; color: #065f46; }
+    .sentiment-neutral { background: #fef3c7; color: #92400e; }
+    .sentiment-negative { background: #fee2e2; color: #991b1b; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+
+    .status-completed { background: #d1fae5; color: #065f46; }
+    .status-in-progress { background: #dbeafe; color: #1e40af; }
+    .status-voicemail { background: #fef3c7; color: #92400e; }
+
+    .pulse {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .refresh-indicator {
+      text-align: center;
+      color: white;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 Live Analytics Dashboard</h1>
+      <p>Real-time insights from your AI recruiting calls</p>
+    </div>
+
+    <div class="refresh-indicator">
+      <span class="pulse"></span> Auto-refreshing every 5 seconds
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Active Calls</div>
+        <div class="metric-value" id="activeCalls">0</div>
+        <div class="metric-subtext">Currently in progress</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Total Today</div>
+        <div class="metric-value" id="totalCalls">0</div>
+        <div class="metric-subtext">Completed calls</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Avg Duration</div>
+        <div class="metric-value" id="avgDuration">0</div>
+        <div class="metric-subtext">Minutes per call</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">PII Redacted</div>
+        <div class="metric-value" id="piiCount">0</div>
+        <div class="metric-subtext">Protected data points</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Success Rate</div>
+        <div class="metric-value" id="successRate">0%</div>
+        <div class="metric-subtext">Completed screenings</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Avg Sentiment</div>
+        <div class="metric-value" id="avgSentiment">--</div>
+        <div class="metric-subtext">Candidate satisfaction</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h2 class="chart-title">Sentiment Analysis</h2>
+      <div class="sentiment-bar">
+        <div class="sentiment-label">Positive</div>
+        <div class="sentiment-progress">
+          <div class="sentiment-fill positive" id="positiveBar" style="width: 0%">0%</div>
+        </div>
+      </div>
+      <div class="sentiment-bar">
+        <div class="sentiment-label">Neutral</div>
+        <div class="sentiment-progress">
+          <div class="sentiment-fill neutral" id="neutralBar" style="width: 0%">0%</div>
+        </div>
+      </div>
+      <div class="sentiment-bar">
+        <div class="sentiment-label">Negative</div>
+        <div class="sentiment-progress">
+          <div class="sentiment-fill negative" id="negativeBar" style="width: 0%">0%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h2 class="chart-title">Top Extracted Skills & Entities</h2>
+      <div class="entities-grid" id="entitiesGrid">
+        <div class="entity-tag">
+          <span class="entity-count">12</span>
+          <span class="entity-label">JavaScript</span>
+        </div>
+        <div class="entity-tag">
+          <span class="entity-count">8</span>
+          <span class="entity-label">Python</span>
+        </div>
+        <div class="entity-tag">
+          <span class="entity-count">6</span>
+          <span class="entity-label">React</span>
+        </div>
+        <div class="entity-tag">
+          <span class="entity-count">5</span>
+          <span class="entity-label">AWS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-calls">
+      <h2 class="chart-title">Recent Calls</h2>
+      <div id="recentCallsList">
+        <div class="call-item">
+          <div class="call-header">
+            <div class="call-candidate">Sarah Johnson</div>
+            <div class="call-time">2 minutes ago</div>
+          </div>
+          <div class="call-details">
+            Senior Software Engineer • 4m 32s
+            <span class="status-badge status-in-progress">In Progress</span>
+          </div>
+          <div>
+            <span class="call-sentiment sentiment-positive">Positive</span>
+          </div>
+        </div>
+
+        <div class="call-item">
+          <div class="call-header">
+            <div class="call-candidate">Marcus Chen</div>
+            <div class="call-time">8 minutes ago</div>
+          </div>
+          <div class="call-details">
+            Product Manager • 6m 12s
+            <span class="status-badge status-completed">Completed</span>
+          </div>
+          <div>
+            <span class="call-sentiment sentiment-positive">Positive</span>
+          </div>
+        </div>
+
+        <div class="call-item">
+          <div class="call-header">
+            <div class="call-candidate">Emily Rodriguez</div>
+            <div class="call-time">15 minutes ago</div>
+          </div>
+          <div class="call-details">
+            UX Designer • 0m 45s
+            <span class="status-badge status-voicemail">Voicemail</span>
+          </div>
+          <div>
+            <span class="call-sentiment sentiment-neutral">Neutral</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulated real-time data updates
+    // In production, this would connect to Twilio Sync or a WebSocket endpoint
+
+    function updateMetrics() {
+      // Active calls
+      const activeCalls = Math.floor(Math.random() * 3);
+      document.getElementById('activeCalls').textContent = activeCalls;
+
+      // Total calls
+      const totalCalls = 47 + Math.floor(Math.random() * 10);
+      document.getElementById('totalCalls').textContent = totalCalls;
+
+      // Average duration
+      const avgDuration = (3.5 + Math.random() * 2).toFixed(1);
+      document.getElementById('avgDuration').textContent = avgDuration;
+
+      // PII redacted
+      const piiCount = 23 + Math.floor(Math.random() * 5);
+      document.getElementById('piiCount').textContent = piiCount;
+
+      // Success rate
+      const successRate = (82 + Math.random() * 10).toFixed(0);
+      document.getElementById('successRate').textContent = successRate + '%';
+
+      // Average sentiment
+      const sentiments = ['😊 Positive', '😐 Neutral', '🙂 Mixed'];
+      document.getElementById('avgSentiment').textContent = sentiments[Math.floor(Math.random() * sentiments.length)];
+
+      // Sentiment bars
+      const positive = 65 + Math.random() * 15;
+      const negative = 5 + Math.random() * 10;
+      const neutral = 100 - positive - negative;
+
+      document.getElementById('positiveBar').style.width = positive + '%';
+      document.getElementById('positiveBar').textContent = positive.toFixed(0) + '%';
+
+      document.getElementById('neutralBar').style.width = neutral + '%';
+      document.getElementById('neutralBar').textContent = neutral.toFixed(0) + '%';
+
+      document.getElementById('negativeBar').style.width = negative + '%';
+      document.getElementById('negativeBar').textContent = negative.toFixed(0) + '%';
+    }
+
+    // Update every 5 seconds
+    updateMetrics();
+    setInterval(updateMetrics, 5000);
+
+    // In production, connect to real-time data source:
+    /*
+    async function connectToSync() {
+      const response = await fetch('/get-sync-token');
+      const data = await response.json();
+
+      const client = new Twilio.Sync.Client(data.token);
+      const document = await client.document('analytics_metrics');
+
+      document.on('updated', (event) => {
+        updateDashboard(event.data);
+      });
+    }
+    */
+  </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sense Recruiting Voice AI - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .recent-calls {
+      margin-top: 30px;
+    }
+
+    .call-item {
+      padding: 15px;
+      border-left: 4px solid #667eea;
+      background: #f8f9fa;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    .call-item h4 {
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .call-item p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .badge.initiated { background: #cce5ff; color: #004085; }
+    .badge.ringing { background: #fff3cd; color: #856404; }
+    .badge.in-progress { background: #d4edda; color: #155724; }
+    .badge.completed { background: #d1ecf1; color: #0c5460; }
+    .badge.voicemail { background: #e2e3e5; color: #383d41; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎙️ Sense Recruiting Voice AI</h1>
+      <p>AI-powered candidate screening & interview scheduling</p>
+    </div>
+
+    <!-- Initiate Screening Call -->
+    <div class="card">
+      <h2>📞 Initiate Screening Call</h2>
+      <form id="screeningForm">
+        <div class="form-group">
+          <label for="candidateId">Candidate ID</label>
+          <input type="text" id="candidateId" placeholder="550e8400-e29b-41d4-a716-446655440000" required>
+        </div>
+
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" placeholder="Justin" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number (E.164 format)</label>
+          <input type="tel" id="phone" placeholder="+15555551234" required>
+        </div>
+
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" id="jobTitle" placeholder="Senior Software Engineer" required>
+        </div>
+
+        <button type="submit" id="submitBtn">Start Screening Call</button>
+
+        <div id="status" class="status"></div>
+      </form>
+    </div>
+
+    <!-- Recent Calls -->
+    <div class="card">
+      <h2>📋 Recent Calls</h2>
+      <div id="recentCalls" class="recent-calls">
+        <p style="color: #999;">No recent calls. Initiate a screening call to get started.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('screeningForm');
+    const statusDiv = document.getElementById('status');
+    const submitBtn = document.getElementById('submitBtn');
+    const recentCallsDiv = document.getElementById('recentCalls');
+
+    // Load recent calls from localStorage
+    function loadRecentCalls() {
+      const calls = JSON.parse(localStorage.getItem('recentCalls') || '[]');
+      if (calls.length === 0) {
+        recentCallsDiv.innerHTML = '<p style="color: #999;">No recent calls. Initiate a screening call to get started.</p>';
+        return;
+      }
+
+      recentCallsDiv.innerHTML = calls.map(call => `
+        <div class="call-item">
+          <h4>${call.firstName} - ${call.jobTitle}</h4>
+          <p>
+            Phone: ${call.phone}
+            <span class="badge ${call.status}">${call.status}</span>
+          </p>
+          <p style="font-size: 0.8rem; margin-top: 5px; color: #999;">
+            Call SID: ${call.callSid} | ${new Date(call.timestamp).toLocaleString()}
+          </p>
+        </div>
+      `).join('');
+    }
+
+    // Save call to recent calls
+    function saveRecentCall(callData) {
+      const calls = JSON.parse(localStorage.getItem('recentCalls') || '[]');
+      calls.unshift(callData);
+      if (calls.length > 10) calls.pop(); // Keep only last 10
+      localStorage.setItem('recentCalls', JSON.stringify(calls));
+      loadRecentCalls();
+    }
+
+    // Show status message
+    function showStatus(message, isError = false) {
+      statusDiv.textContent = message;
+      statusDiv.className = 'status show ' + (isError ? 'error' : 'success');
+      setTimeout(() => {
+        statusDiv.classList.remove('show');
+      }, 5000);
+    }
+
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const candidateId = document.getElementById('candidateId').value;
+      const firstName = document.getElementById('firstName').value;
+      const phone = document.getElementById('phone').value;
+      const jobTitle = document.getElementById('jobTitle').value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Initiating call...';
+
+      try {
+        const response = await fetch('/screen-candidate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ candidateId, firstName, phone, jobTitle })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showStatus(`✅ ${result.message} (Call SID: ${result.callSid})`, false);
+
+          // Save to recent calls
+          saveRecentCall({
+            candidateId,
+            firstName,
+            phone,
+            jobTitle,
+            callSid: result.callSid,
+            status: 'initiated',
+            timestamp: new Date().toISOString()
+          });
+
+          // Reset form
+          form.reset();
+        } else {
+          showStatus(`❌ Error: ${result.error}`, true);
+        }
+      } catch (error) {
+        showStatus(`❌ Network error: ${error.message}`, true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Start Screening Call';
+      }
+    });
+
+    // Load recent calls on page load
+    loadRecentCalls();
+  </script>
+</body>
+</html>

@@ -90,7 +90,34 @@ DNC_REGISTRY_API_KEY=xxx
 
 ## 🚀 Quick Start
 
-### Step 1: Setup
+### Two Deployment Options
+
+**🎨 Option A: Twilio Serverless (Easiest for Workshops)**
+```bash
+cd twilio-serverless
+npm install
+twilio serverless:deploy
+# Open: https://your-service-XXXX.twil.io/index.html
+```
+✅ No server management
+✅ Beautiful admin UI
+✅ Instant deployment
+📖 **[Full Serverless Guide →](docs/SERVERLESS_DEPLOYMENT.md)**
+
+**⚙️ Option B: Full Stack Development**
+```bash
+npm install
+npm run test:local  # Validate setup
+npm run dev         # Start server
+npm run grok        # Start tunnel
+```
+✅ Full control over AI logic
+✅ Custom integrations
+✅ Local development
+
+---
+
+### Step 1: Setup (Option B - Full Stack)
 
 ```bash
 # Run automated setup script
