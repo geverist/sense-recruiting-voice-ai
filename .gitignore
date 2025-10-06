@@ -50,3 +50,6 @@ Thumbs.db
 *.cert
 secrets/
 credentials/
+
+# Twilio deployment artifacts
+twilio-serverless/.twiliodeployinfo
