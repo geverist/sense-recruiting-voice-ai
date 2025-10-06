@@ -359,6 +359,316 @@
     .tab-content.active {
       display: block;
     }
+
+    /* Call History Tab Styles */
+    .filters {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 15px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .filter-label {
+      font-size: 0.85rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .filter-input, .filter-select {
+      padding: 8px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .btn-refresh {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .calls-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .call-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .call-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .call-info {
+      flex: 1;
+    }
+
+    .call-candidate {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .call-meta {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .call-status {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-completed { background: #d1fae5; color: #065f46; }
+    .status-in-progress { background: #dbeafe; color: #1e40af; }
+    .status-failed { background: #fee2e2; color: #991b1b; }
+    .status-voicemail { background: #fef3c7; color: #92400e; }
+
+    .call-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .detail-item {
+      background: #f9fafb;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      font-size: 1rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .transcript-section {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+
+    .transcript-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .transcript-toggle {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .transcript-content {
+      display: none;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .transcript-content.show {
+      display: block;
+    }
+
+    .transcript-turn {
+      margin-bottom: 15px;
+      padding: 12px;
+      background: white;
+      border-radius: 6px;
+    }
+
+    .transcript-speaker {
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .transcript-text {
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .transcript-timestamp {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .intelligence-section {
+      margin-top: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #e0e7ff, #f3e8ff);
+      border-radius: 8px;
+    }
+
+    .intelligence-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .intelligence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .intelligence-item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .intelligence-label {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .intelligence-value {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .sentiment-bar {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .sentiment-fill {
+      height: 100%;
+      transition: width 0.3s;
+    }
+
+    .sentiment-positive { background: #10b981; }
+    .sentiment-neutral { background: #f59e0b; }
+    .sentiment-negative { background: #ef4444; }
+
+    .entities-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .entity-tag {
+      background: #667eea;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    .empty-state-text {
+      font-size: 1.2rem;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: white;
+      font-size: 1.2rem;
+    }
   </style>
 </head>
 <body>
@@ -376,7 +686,7 @@
       <button class="nav-tab" onclick="switchTab('knowledge')">📚 Knowledge Base</button>
       <button class="nav-tab" onclick="switchTab('tools')">🛠️ Tools & Functions</button>
       <button class="nav-tab" onclick="switchTab('preview')">👁️ Preview</button>
-      <button class="nav-tab" onclick="window.location.href='/call-history.html'">📞 Call History</button>
+      <button class="nav-tab" onclick="switchTab('history')">📞 Call History</button>
     </div>
 
     <!-- Tab 1: Candidate Info -->
@@ -795,6 +1105,48 @@
       </div>
     </div>
 
+    <!-- Tab 8: Call History -->
+    <div id="history-tab" class="tab-content">
+      <div class="card">
+        <h2>📞 Call History</h2>
+        <p style="color: #666; margin-bottom: 20px;">View transcripts, recordings, and Conversational Intelligence insights</p>
+
+        <div class="filters">
+          <div class="filter-group">
+            <label class="filter-label">Status</label>
+            <select class="filter-select" id="filterStatus">
+              <option value="">All Statuses</option>
+              <option value="completed">Completed</option>
+              <option value="in-progress">In Progress</option>
+              <option value="voicemail">Voicemail</option>
+              <option value="failed">Failed</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Date Range</label>
+            <select class="filter-select" id="filterDate">
+              <option value="7">Last 7 Days</option>
+              <option value="30">Last 30 Days</option>
+              <option value="90">Last 90 Days</option>
+              <option value="365">Last Year</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">Search</label>
+            <input type="text" class="filter-input" id="filterSearch" placeholder="Candidate name...">
+          </div>
+
+          <button class="btn-refresh" onclick="loadCalls()">🔄 Refresh</button>
+        </div>
+
+        <div id="callsContainer">
+          <div class="loading">Click Refresh to load call history...</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -1173,6 +1525,212 @@ Maintain professionalism at all times.`
       renderKnowledgeSources();
       loadPromptPreset('screening');
     });
+
+    // ================================================================
+    // CALL HISTORY FUNCTIONS
+    // ================================================================
+
+    async function loadCalls() {
+      const container = document.getElementById('callsContainer');
+      container.innerHTML = '<div class="loading">Loading call history...</div>';
+
+      try {
+        const response = await fetch('/get-call-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: document.getElementById('filterStatus').value,
+            dateRange: document.getElementById('filterDate').value,
+            search: document.getElementById('filterSearch').value
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.calls && data.calls.length > 0) {
+          renderCalls(data.calls);
+        } else {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <div class="empty-state-text">No calls found. Make some screening calls to see them here!</div>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Error loading calls:', error);
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">❌</div>
+            <div class="empty-state-text">Error loading call history. Please try again.</div>
+          </div>
+        `;
+      }
+    }
+
+    function renderCalls(calls) {
+      const container = document.getElementById('callsContainer');
+      container.innerHTML = '<div class="calls-grid"></div>';
+      const grid = container.querySelector('.calls-grid');
+
+      calls.forEach(call => {
+        const card = createCallCard(call);
+        grid.appendChild(card);
+      });
+    }
+
+    function createCallCard(call) {
+      const card = document.createElement('div');
+      card.className = 'call-card';
+
+      const statusClass = `status-${(call.status || 'unknown').toLowerCase().replace('_', '-')}`;
+      const startTime = call.startTime || call.timestamp || new Date().toISOString();
+
+      card.innerHTML = `
+        <div class="call-header">
+          <div class="call-info">
+            <div class="call-candidate">${call.candidateName || 'Unknown Candidate'}</div>
+            <div class="call-meta">
+              <span>📞 ${call.callSid}</span>
+              <span>🕐 ${formatDate(startTime)}</span>
+              <span>⏱️ ${formatDuration(call.duration || 0)}</span>
+            </div>
+          </div>
+          <div class="call-status ${statusClass}">
+            ${call.status || 'unknown'}
+          </div>
+        </div>
+
+        <div class="call-details">
+          <div class="detail-item">
+            <div class="detail-label">Job Title</div>
+            <div class="detail-value">${call.jobTitle || 'N/A'}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Phone</div>
+            <div class="detail-value">${call.candidatePhone || 'N/A'}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Sentiment</div>
+            <div class="detail-value">${call.intelligence?.sentiment || 'N/A'}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Conversation Steps</div>
+            <div class="detail-value">${call.conversationHistory?.length || 0} exchanges</div>
+          </div>
+        </div>
+
+        ${call.transcript && call.transcript.length > 0 ? `
+        <div class="transcript-section">
+          <div class="transcript-title">
+            📝 Conversation Transcript
+            <button class="transcript-toggle" onclick="toggleTranscript('${call.callSid}')">Show</button>
+          </div>
+          <div class="transcript-content" id="transcript-${call.callSid}">
+            ${renderTranscript(call.transcript)}
+          </div>
+        </div>
+        ` : ''}
+
+        ${call.intelligence ? `
+        <div class="intelligence-section">
+          <div class="intelligence-title">
+            🧠 Conversational Intelligence
+          </div>
+          <div class="intelligence-grid">
+            <div class="intelligence-item">
+              <div class="intelligence-label">Sentiment</div>
+              <div class="intelligence-value">${call.intelligence.sentiment || 'Neutral'}</div>
+              <div class="sentiment-bar">
+                <div class="sentiment-fill sentiment-${(call.intelligence.sentiment || 'neutral').toLowerCase()}"
+                     style="width: ${call.intelligence.sentiment === 'positive' ? '80' : call.intelligence.sentiment === 'negative' ? '30' : '50'}%"></div>
+              </div>
+            </div>
+            <div class="intelligence-item">
+              <div class="intelligence-label">PII Redacted</div>
+              <div class="intelligence-value">${call.intelligence.piiCount || 0} items</div>
+            </div>
+            ${call.intelligence.entities && call.intelligence.entities.length > 0 ? `
+            <div class="intelligence-item">
+              <div class="intelligence-label">Extracted Entities</div>
+              <div class="entities-list">
+                ${call.intelligence.entities.map(e => `<span class="entity-tag">${e.type}: ${e.value}</span>`).join('')}
+              </div>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+        ` : ''}
+
+        <div class="actions">
+          ${call.recordingUrl ? `<button class="btn btn-primary" onclick="playRecording('${call.recordingUrl}')">🎧 Play Recording</button>` : ''}
+          <button class="btn btn-secondary" onclick="viewInTwilio('${call.callSid}')">🔗 View in Twilio Console</button>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function renderTranscript(transcript) {
+      if (!transcript || transcript.length === 0) {
+        return '<p style="color: #999;">No transcript available</p>';
+      }
+
+      return transcript.map(turn => `
+        <div class="transcript-turn">
+          <div class="transcript-speaker">${turn.speaker || (turn.role === 'user' ? '👤 Candidate' : '🤖 Simon')}</div>
+          <div class="transcript-text">${turn.text || turn.content || ''}</div>
+          ${turn.timestamp ? `<div class="transcript-timestamp">${formatDate(turn.timestamp)}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function toggleTranscript(callSid) {
+      const content = document.getElementById(`transcript-${callSid}`);
+      const buttons = document.querySelectorAll('.transcript-toggle');
+
+      buttons.forEach(button => {
+        if (button.onclick && button.onclick.toString().includes(callSid)) {
+          if (content.classList.contains('show')) {
+            content.classList.remove('show');
+            button.textContent = 'Show';
+          } else {
+            content.classList.add('show');
+            button.textContent = 'Hide';
+          }
+        }
+      });
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return 'N/A';
+      const date = new Date(timestamp);
+      return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function playRecording(url) {
+      if (url) {
+        window.open(url, '_blank');
+      } else {
+        alert('Recording not available');
+      }
+    }
+
+    function viewInTwilio(callSid) {
+      window.open(`https://console.twilio.com/us1/monitor/logs/calls/${callSid}`, '_blank');
+    }
   </script>
 </body>
 </html>
