@@ -6,6 +6,7 @@ Get the Sense Recruiting Voice AI running in 15 minutes.
 
 - [Twilio Account](https://www.twilio.com/try-twilio) (free trial works)
 - [OpenAI API Key](https://platform.openai.com/api-keys)
+- [ElevenLabs Account](https://elevenlabs.io) (free tier available)
 - Node.js 18+ installed
 
 ## Setup Steps
@@ -47,7 +48,19 @@ twilio api:sync:v1:services:create --friendly-name "Sense Recruiting AI"
 # Copy the Service SID (starts with "ZS...")
 ```
 
-### 5. Create Environment File
+### 5. Get API Keys
+
+**OpenAI:**
+1. Visit [OpenAI API Keys](https://platform.openai.com/api-keys)
+2. Click "Create new secret key"
+3. Copy the key (starts with `sk-proj-`)
+
+**ElevenLabs:**
+1. Sign up at [ElevenLabs](https://elevenlabs.io)
+2. Go to Settings → [API Keys](https://elevenlabs.io/app/settings/api-keys)
+3. Copy your API key (32-character string)
+
+### 6. Create Environment File
 
 ```bash
 # Copy example file
@@ -64,9 +77,10 @@ AUTH_TOKEN=your_auth_token_here
 DEFAULT_TWILIO_NUMBER=+1234567890
 TWILIO_SYNC_SVC_SID=ZSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ELEVENLABS_API_KEY=your_elevenlabs_key_here
 ```
 
-### 6. Deploy to Twilio
+### 7. Deploy to Twilio
 
 ```bash
 twilio serverless:deploy
@@ -74,7 +88,7 @@ twilio serverless:deploy
 
 Copy the domain URL from output (e.g., `https://your-app-1234-dev.twil.io`)
 
-### 7. Open the UI
+### 8. Open the UI
 
 Visit: `https://your-app-1234-dev.twil.io/advanced.html`
 
@@ -92,15 +106,16 @@ Visit: `https://your-app-1234-dev.twil.io/advanced.html`
 5. Answer your phone and talk to Simon!
 6. View call history in the **📞 Call History** tab
 
-## Optional: ElevenLabs Voices
+## Voice Selection
 
-1. Sign up at [ElevenLabs](https://elevenlabs.io)
-2. Get API key from Settings → API Keys
-3. Add to `.env`:
-   ```bash
-   ELEVENLABS_API_KEY=your_key_here
-   ```
-4. Redeploy: `twilio serverless:deploy --override-existing-project`
+The UI includes 11 ElevenLabs voices:
+- **Rachel** (Female, US) - Warm and friendly
+- **Antoni** (Male, British) - Professional Simon voice
+- **Josh** (Male, US) - Energetic and clear
+- **Charlotte** (Female, British) - Sophisticated
+- And 7 more...
+
+For the workshop, these map to similar Amazon Polly voices. For production with actual ElevenLabs voices, see the ConversationRelay setup in the full docs.
 
 ## Troubleshooting
 
